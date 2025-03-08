@@ -12,6 +12,7 @@ word_size       = 32
 num_words       = 128
 num_banks       = 1
 words_per_row   = 4
+write_size      = 8
 
 tech_name       = "freepdk45"
 process_corners = ["TT"]
