@@ -150,12 +150,14 @@ module tut10_sram_SRAMMinion
   logic        sram_wen_M0;
   logic        sram_oen_M0;
   logic        sram_en_M0;
+  logic [3:0]  sram_wben_M0;
   logic [31:0] sram_write_data_M0;
   logic [31:0] sram_read_data_M1;
 
   assign sram_addr_M0 = memreq_msg_addr_M0[8:2];
   assign sram_wen_M0  = memreq_val_M0 && (memreq_msg_type_M0 == c_write);
   assign sram_en_M0   = memreq_go;
+  assign sram_wben_M0 = 4'b1111;
 
   // Instantiate SRAM
 
@@ -163,9 +165,10 @@ module tut10_sram_SRAMMinion
   (
     .clk         (clk),
     .reset       (reset),
-    .port0_idx   (sram_addr_M0),
-    .port0_type  (sram_wen_M0),
     .port0_val   (sram_en_M0),
+    .port0_type  (sram_wen_M0),
+    .port0_idx   (sram_addr_M0),
+    .port0_wben  (sram_wben_M0),
     .port0_wdata (memreq_msg_data_M0),
     .port0_rdata (sram_read_data_M1)
   );

@@ -11,6 +11,7 @@
 #  --stats             Display statistics
 #  --translate         Translate RTL model to Verilog
 #  --dump-vcd          Dump VCD to sort-<impl>-<input>.vcd
+#  --dump-vtb          Dump Verilog test bench
 #
 # Author : Christopher Batten
 # Date   : February 5, 2015

@@ -14,6 +14,7 @@ class SRAM( VerilogPlaceholder, Component ):
     s.port0_val   = InPort ()
     s.port0_type  = InPort ()
     s.port0_idx   = InPort ( clog2(p_num_entries) )
+    s.port0_wben  = InPort ( p_data_nbits//8 )
     s.port0_wdata = InPort ( p_data_nbits )
     s.port0_rdata = OutPort( p_data_nbits )
 

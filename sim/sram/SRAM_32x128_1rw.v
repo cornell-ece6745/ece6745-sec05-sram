@@ -14,6 +14,7 @@ module SRAM_32x128_1rw
   input  logic        clk0,
   input  logic        web0,
   input  logic        csb0,
+  input  logic [3:0]  wmask0,
   input  logic [6:0]  addr0,
   input  logic [31:0] din0,
   output logic [31:0] dout0
@@ -26,12 +27,13 @@ module SRAM_32x128_1rw
   )
   sram_generic
   (
-    .clk0  (clk0),
-    .addr0 (addr0),
-    .web0  (web0),
-    .csb0  (csb0),
-    .din0  (din0),
-    .dout0 (dout0)
+    .clk0   (clk0),
+    .web0   (web0),
+    .csb0   (csb0),
+    .wmask0 (wmask0),
+    .addr0  (addr0),
+    .din0   (din0),
+    .dout0  (dout0)
   );
 
 endmodule

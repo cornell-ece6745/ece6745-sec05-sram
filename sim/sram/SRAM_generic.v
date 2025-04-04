@@ -17,12 +17,13 @@ module sram_SRAM_generic
   parameter c_addr_nbits  = $clog2(p_num_entries),
   parameter c_data_nbytes = (p_data_nbits+7)/8 // $ceil(p_data_nbits/8)
 )(
-  input  logic                      clk0,  // clk
-  input  logic                      web0,  // bar( write en )
-  input  logic                      csb0,  // bar( whole SRAM en )
-  input  logic [c_addr_nbits-1:0]   addr0, // address
-  input  logic [p_data_nbits-1:0]   din0,  // write data
-  output logic [p_data_nbits-1:0]   dout0  // read data
+  input  logic                        clk0,   // clk
+  input  logic                        web0,   // bar( write en )
+  input  logic                        csb0,   // bar( whole SRAM en )
+  input  logic [(p_data_nbits/8)-1:0] wmask0, // per-byte write mask
+  input  logic [c_addr_nbits-1:0]     addr0,  // address
+  input  logic [p_data_nbits-1:0]     din0,   // write data
+  output logic [p_data_nbits-1:0]     dout0   // read data
 );
 
   logic [p_data_nbits-1:0] mem[p_num_entries-1:0];
@@ -48,7 +49,7 @@ module sram_SRAM_generic
     for ( i = 0; i < c_data_nbytes; i = i + 1 )
     begin : write
       always @( posedge clk0 ) begin
-        if ( ~csb0 && ~web0 )
+        if ( ~csb0 && ~web0 && wmask0[i] )
           mem[addr0][ (i+1)*8-1 : i*8 ] <= din0[ (i+1)*8-1 : i*8 ];
       end
     end

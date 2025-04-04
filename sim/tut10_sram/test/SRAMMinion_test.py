@@ -136,7 +136,7 @@ def allN_msgs( num ):
       req( 'wr', i, base_addr+4*i, 0, num ), resp( 'wr', i, 0, 0 ),
     ])
 
-  for i in range(150):
+  for i in range(128):
     idx = rgen.randint(0,127)
 
     if rgen.randint(0,1):

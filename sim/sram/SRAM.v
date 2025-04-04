@@ -16,6 +16,7 @@
 //  port0_val     I          port enable (1 = enabled)
 //  port0_type    I          transaction type, 0 = read, 1 = write
 //  port0_idx     I          index of the SRAM
+//  port0_wben    I          write byte enables
 //  port0_wdata   I          write data
 //  port0_rdata   O          read data output
 //
@@ -44,27 +45,30 @@ module sram_SRAM
   parameter c_addr_nbits  = $clog2(p_num_entries),
   parameter c_data_nbytes = (p_data_nbits+7)/8 // $ceil(p_data_nbits/8)
 )(
-  input  logic                      clk,
-  input  logic                      reset,
-  input  logic                      port0_val,
-  input  logic                      port0_type,
-  input  logic [c_addr_nbits-1:0]   port0_idx,
-  input  logic [p_data_nbits-1:0]   port0_wdata,
-  output logic [p_data_nbits-1:0]   port0_rdata
+  input  logic                        clk,
+  input  logic                        reset,
+  input  logic                        port0_val,
+  input  logic                        port0_type,
+  input  logic [c_addr_nbits-1:0]     port0_idx,
+  input  logic [(p_data_nbits/8)-1:0] port0_wben,
+  input  logic [p_data_nbits-1:0]     port0_wdata,
+  output logic [p_data_nbits-1:0]     port0_rdata
 );
 
-  logic                     clk0;
-  logic                     web0;
-  logic                     csb0;
-  logic [c_addr_nbits-1:0]  addr0;
-  logic [p_data_nbits-1:0]  din0;
-  logic [p_data_nbits-1:0]  dout0;
+  logic                        clk0;
+  logic                        web0;
+  logic                        csb0;
+  logic [(p_data_nbits/8)-1:0] wmask0;
+  logic [c_addr_nbits-1:0]     addr0;
+  logic [p_data_nbits-1:0]     din0;
+  logic [p_data_nbits-1:0]     dout0;
 
-  assign clk0  = clk;
-  assign web0  = ~port0_type;
-  assign csb0  = ~port0_val;
-  assign addr0 = port0_idx;
-  assign din0  = port0_wdata;
+  assign clk0   = clk;
+  assign web0   = ~port0_type;
+  assign csb0   = ~port0_val;
+  assign wmask0 = port0_wben;
+  assign addr0  = port0_idx;
+  assign din0   = port0_wdata;
 
   assign port0_rdata = dout0;
 
